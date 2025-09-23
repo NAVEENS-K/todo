@@ -5,38 +5,38 @@ on:
     branches: [main]
 
 jobs:
-    mongo-init:
-        runs-on: ubuntu-latest
+  mongo-init:
+    runs-on: ubuntu-latest
 
-        services:
-          mongo:
-            image: mongo
-            ports:
-              - 27017:27017
-    
-          steps: 
-            - name: Checkout repository
-              uses: actions/checkout@v5
+    services:
+      mongo:
+        image: mongo
+        ports:
+          - 27017:27017
 
-            - name: checkout node.js
-              uses: actions/setup-node@v3
-              with:
-                node-version: "18"
+    steps: 
+      - name: Checkout repository
+        uses: actions/checkout@v5
 
-            - name: waiting for mongodb to ready
-              run: |
+      - name: checkout node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: "18"
+
+      - name: waiting for mongodb to ready
+        run: |
           until nc -z localhost 27017; do
             echo "waiting for mongodb "
             sleep 2
           done
-            echo "mongodb is up"
-
+          echo "mongodb is up"
 
       - name: seed mongodb
         working-directory: ./backend
         run: |
           npm install
           node seedTaskData.js
+
   test: 
     runs-on: ubuntu-latest
     needs: mongo-init
