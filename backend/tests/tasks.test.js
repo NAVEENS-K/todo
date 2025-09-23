@@ -17,6 +17,7 @@ it("it should be return Array data", async() =>{
    
     expect(typeof res.body).toBe("object");
     expect(res.body).toHaveProperty("tasks");
+    console.log(res.body.tasks, "DATA SEEDED")
 
 })
 
